@@ -4,3 +4,5 @@
  In this task I split my answer to two functions. Both do the same thing, but in a different way. First most_repeated_words use a build in function from collections called: Counter with most_commod gives us 3 most often repeated words.
  <br />Second one use dictionary, which check that key is in our dictionary, when we find another using addition assigment add 1.
  
+# Tasker
+To-do console app. Finish methods in two classes: Exporter and Importer like save_tasks(), read_tasks(), get_tasks(). Encode Polish words in JSON file to have better visualization. 

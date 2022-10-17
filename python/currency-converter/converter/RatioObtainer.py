@@ -19,6 +19,8 @@ class RatioObtainer:
         for rate in data:
             if rate['base_currency'] == self.base and rate['target_currency'] == self.target and rate['date_fetched'] != str(datetime.today().date()):
                 return False
+            elif rate['base_currency'] != self.base and rate['target_currency'] != self.target and rate['date_fetched'] != str(datetime.today().date()):
+                return False
         return True
 
         # This function checks if given ratio was saved today and if the file with ratios is created at all

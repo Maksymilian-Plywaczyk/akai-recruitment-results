@@ -1,3 +1,5 @@
+import os.path
+
 from converter.App import App
 import sys
 

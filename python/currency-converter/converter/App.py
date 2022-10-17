@@ -29,3 +29,4 @@ class App:
 
     def create_cache(self):
         open(self._cache_name, 'w')
+

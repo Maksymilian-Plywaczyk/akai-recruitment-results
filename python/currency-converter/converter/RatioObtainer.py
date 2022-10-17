@@ -16,11 +16,8 @@ class RatioObtainer:
         # TODO
         with open('ratios.json', 'r') as file:
             data = json.load(file)
-        for ratio in data:
-            if ratio['base_currency'] == self.base and ratio['target_currency'] == self.target and ratio[
-                'target_currency'] != str(datetime.today().date()):
-                return False
-            if ratio['base_currency'] != self.base and ratio['target_currency'] != self.target:
+        for rate in data:
+            if rate['base_currency'] == self.base and rate['target_currency'] == self.target and rate['date_fetched'] != str(datetime.today().date()):
                 return False
         return True
 
@@ -38,7 +35,6 @@ class RatioObtainer:
             response = requests.get(url)
         except requests.exceptions.RequestException as e:
             print(e)
-
         data = response.json()
         ratio = {"base_currency": data['query']['from'], "target_currency": data['query']['to'],
                  "date_fetched": data['date'], "ratio": data['info']['rate']}
@@ -46,24 +42,23 @@ class RatioObtainer:
 
     def save_ratio(self, ratio):
         # TODO
-        empty_list = []
-        if not os.path.exists('ratios.json'):
-            empty_list.append(ratio)
-            with open('ratios.json', 'w') as file:
-                json.dump(empty_list, file)
         # Should save or update exchange rate for given pair in json file
         # takes ratio as argument
         # example file structure is shipped in project's directory, yours can differ (as long as it works)
+        if os.path.getsize('ratios.json') == 0:
+            exchange_list = [ratio]
+            with open('ratios.json', 'w') as file:
+                json.dump(exchange_list, file)
+
         with open('ratios.json', 'r') as file:
             data = json.load(file)
-        # for day in data:
-        #     if day['base_currency'] == ratio['base_currency'] and day['target_currency'] == ratio[
-        #         'target_currency'] and datetime.strptime(day['date_fetched'], '%Y-%M-%d') < datetime.strptime(
-        #         ratio['date_fetched'], '%Y-%M-%d'):
-        #         day['ratio'] = ratio['ratio']
-        #         day['date_fetched'] = ratio['date_fetched']
-        #     else:
-        data.append(ratio)
+        for day in data:
+
+            if day['base_currency'] == ratio['base_currency'] and day['target_currency'] == ratio['target_currency']:
+                day['ratio'] = ratio['ratio']
+                day['date_fetched'] = ratio['date_fetched']
+            if ratio not in data:
+                data.append(ratio)
         with open('ratios.json', 'w') as file:
             json.dump(data, file)
 

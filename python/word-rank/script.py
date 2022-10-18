@@ -1,6 +1,6 @@
 # coding=utf-8
 from collections import Counter
-from operator import itemgetter, attrgetter
+from operator import itemgetter
 
 # input: array with multiple strings
 # expected output: rank of the 3 most often repeated words in given set of strings and number of times they occured, case insensitive
@@ -32,7 +32,6 @@ def most_repeated_words(sentences: list, number_of_words: int) -> list[tuple]:
         list_with_seperated_word += word_list
 
     result = Counter(list_with_seperated_word).most_common(number_of_words)
-    print(result)
     return result
 
 
@@ -47,20 +46,40 @@ def most_repeated_words_dict(sentences: list) -> list[tuple]:
         if word in words_dictionary.keys():
             words_dictionary[word] += 1
         else:
-            words_dictionary[word] = 0
+            words_dictionary[word] = 1
     result = sorted(words_dictionary.items(), key=itemgetter(1), reverse=True)
     return result
 
 
-# most_repeated_words(sentences, 3)
-result = most_repeated_words(sentences, 3)
-print(f'1. "{result[0][0]}" - {result[0][1]}')
-print(f'2. "{result[1][0]}" - {result[1][1]}')
-print(f'3. "{result[2][0]}" - {result[2][1]}')
+def print_results(result: list[tuple]) -> None:
+    print(f'1. "{result[0][0]}" - {result[0][1]}')
+    print(f'2. "{result[1][0]}" - {result[1][1]}')
+    print(f'3. "{result[2][0]}" - {result[2][1]}')
+
+
+if __name__ == '__main__':
+    while True:
+        choose_number = input("Which implementation do you choose (1 or 2): ")
+        if int(choose_number) == 1:
+            result = most_repeated_words(sentences, 3)
+            print_results(result)
+            break
+        elif int(choose_number) == 2:
+            result = most_repeated_words_dict(sentences)
+            print_results(result)
+            break
+        else:
+            print('You can only pass 1 or 2')
+            continue
+
 # Example result:
 # 1. "mam" - 12
 # 2. "tak" - 5
 # 3. "z" - 2
+# 1. "nie" - 4
+# 2. "jak" - 3
+# 3. "Gdzie" - 3
+
 
 
 # Good luck! You can write all the code in this file.

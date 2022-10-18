@@ -17,9 +17,11 @@ class RatioObtainer:
         with open('ratios.json', 'r') as file:
             data = json.load(file)
         for rate in data:
-            if rate['base_currency'] == self.base and rate['target_currency'] == self.target and rate['date_fetched'] != str(datetime.today().date()):
+            if rate['base_currency'] == self.base and rate['target_currency'] == self.target and rate[
+                'date_fetched'] != str(datetime.today().date()):
                 return False
-            elif rate['base_currency'] != self.base and rate['target_currency'] != self.target and rate['date_fetched'] != str(datetime.today().date()):
+            elif rate['base_currency'] != self.base and rate['target_currency'] != self.target and rate[
+                'date_fetched'] != str(datetime.today().date()):
                 return False
         return True
 
@@ -42,7 +44,7 @@ class RatioObtainer:
                  "date_fetched": data['date'], "ratio": data['info']['rate']}
         self.save_ratio(ratio=ratio)
 
-    def save_ratio(self, ratio):
+    def save_ratio(self, ratio: dict):
         # TODO
         # Should save or update exchange rate for given pair in json file
         # takes ratio as argument
@@ -64,7 +66,7 @@ class RatioObtainer:
         with open('ratios.json', 'w') as file:
             json.dump(data, file)
 
-    def get_matched_ratio_value(self):
+    def get_matched_ratio_value(self) -> float:
         # TODO
         # Should read file and receive exchange rate for given base and target currency from that file
         with open('ratios.json', 'r') as file:

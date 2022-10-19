@@ -15,14 +15,13 @@ class App:
         if not os.path.exists(self.CACHE_NAME):
             self.create_cache()
 
-    def get_result_equation(self):
+    def get_result_equation(self) -> str:
         base_currency_amount = str(self.amount) + " " + str(self.base_currency)
         target_currency_amount = str(self.get_ratio() * float(self.amount)) + " " + self.target_currency
         return base_currency_amount + " = " + target_currency_amount
 
-    def get_ratio(self):
+    def get_ratio(self) -> float:
         obtainer = RatioObtainer(base=self.base_currency, target=self.target_currency)
-        print(obtainer.was_ratio_saved_today())
         if not obtainer.was_ratio_saved_today():
             obtainer.fetch_ratio()
         return obtainer.get_matched_ratio_value()

@@ -15,14 +15,18 @@ class RatioObtainer:
 
     def was_ratio_saved_today(self) -> bool:
         # TODO
+        if os.path.getsize(App.App.CACHE_NAME) == 0:
+            return False
+
         with open(App.App.CACHE_NAME, 'r') as file:
             currency_data = json.load(file)
         for rate in currency_data:
             # Assign to variable to better visualization and quick change if it is necessary
             check_currency = rate['base_currency'] == self.base and rate['target_currency'] == self.target
-            if check_currency and rate['date_fetched'] != str(datetime.today().date()):
+            check_today_date = rate['date_fetched'] != str(datetime.today().date())
+            if check_currency and check_today_date:
                 return False
-            elif not check_currency and rate['date_fetched'] != str(datetime.today().date()):
+            elif not check_currency and check_today_date:
                 return False
         return True
 
